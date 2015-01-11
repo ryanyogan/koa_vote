@@ -11,13 +11,17 @@
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.1.0",
+    "should": "^4.4.4",
     "supertest": "^0.15.0"
   },
   "dependencies": {
+    "co": "^4.1.0",
+    "co-monk": "^1.0.0",
     "co-views": "^0.2.0",
     "koa": "^0.14.0",
     "koa-route": "^2.4.0",
     "koa-static": "^1.4.8",
+    "monk": "^0.9.1",
     "swig": "^1.4.2"
   }
 }
