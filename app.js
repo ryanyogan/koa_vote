@@ -16,6 +16,7 @@ app.use(route.post('/question', questionRoutes.addQuestion));
 app.use(route.get('/question/:id', questionRoutes.showQuestion));
 app.use(route.post('/question/:id', questionRoutes.updateQuestion));
 app.use(route.get('/vote', voteRoutes.showAddVote));
+app.use(route.post('/vote', voteRoutes.addVote));
 
 app.listen(3000);
 console.log("This app is listening on port 3000");

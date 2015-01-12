@@ -1,6 +1,7 @@
 var render = require('./../lib/render');
 var parse  = require('co-body');
 var db     = require('./../lib/db');
+var utils  = require('./../lib/utils');
 
 module.exports.showNewQuestion = function *() {
   this.body = yield render('newQuestion');
@@ -11,7 +12,7 @@ module.exports.addQuestion = function *() {
 
   var questionToStore = {
     title: postedData.questionTitle,
-    tags: splitAndTrimTagString(postedData.tagString)
+    tags: utils.splitTags(postedData.tagString)
   };
 
   var q = yield db.questions.insert(questionToStore);
@@ -33,21 +34,11 @@ module.exports.updateQuestion = function *(id) {
 
   var questionToStore = {
     title: postedData.questionTitle,
-    tags: splitAndTrimTagString(postedData.tagString)
+    tags: utils.splitTags(postedData.tagString)
   };
 
   yield db.questions.updateById(id, questionToStore);
 
   this.redirect('/question/' + id);
-}
-
-function splitAndTrimTagString(tagString) {
-  var tags = tagString.split(',');
-
-  tags.map(function(tag) {
-    return tag.trim();
-  });
-
-  return tags;
 }
 

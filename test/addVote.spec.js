@@ -17,6 +17,11 @@ describe("Voting on a question", function() {
   });
 
   var test_question = { title: "To be?", tags: ["tag1", "tag2"] };
+  var test_vote_form = {
+    tagString: "tag1, tag2, tag3",
+    questionId: 000000000000000000000000,
+    voteValue: 4
+  };
 
   it("has a page for voting from", function(done) {
     co(function *() {
@@ -30,6 +35,25 @@ describe("Voting on a question", function() {
         })
         .expect(200, done);
     });
+  });
+
+  it('can add a vote and redirect to the comment page', function(done) {
+    request
+      .post('/vote')
+      .send(test_vote_form)
+      .expect('location', /^\/vote\/[0-9a-fA-F]{24}\/comment$/)
+      .expect(302, done);
+  });
+
+  it('requires a question reference', function(done) {
+    delete test_vote_form.questionId;
+
+    request
+      .post('/vote')
+      .send(test_vote_form)
+      .expect('location','/')
+      .expect('ErrorMessage', 'QuestionId required')
+      .expect(302, done);
   });
 
   it("reutrns error when no question can be found", function(done) {
